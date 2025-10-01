@@ -1,4 +1,11 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/base:alpine",
-  "updateContentCommand": "curl -fsSL https://deno.land/install.sh | sh -s -- --yes"
+  "image": "mcr.microsoft.com/devcontainers/base:debian",
+  "updateContentCommand": "curl -fsSL https://deno.land/install.sh | sh -s -- --yes",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "denoland.vscode-deno"
+      ]
+    }
+  }
 }

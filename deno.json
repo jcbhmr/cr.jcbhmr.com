@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "@fcrozatier/monarch": "jsr:@fcrozatier/monarch@^3.2.1"
+  },
+  "tasks": {
+    "dev": "deno serve --watch --allow-net=ghcr.io:443 ./main.ts"
+  }
+}

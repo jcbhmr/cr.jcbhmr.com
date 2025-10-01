@@ -1,0 +1,16 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@fcrozatier/monarch@^3.2.1": "3.2.1"
+  },
+  "jsr": {
+    "@fcrozatier/monarch@3.2.1": {
+      "integrity": "40c47fb6e3e55f3e0991314323150a1aa37c9937a62083a6fe15e9fbe4806d23"
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@fcrozatier/monarch@^3.2.1"
+    ]
+  }
+}
