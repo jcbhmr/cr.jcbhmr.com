@@ -1,4 +1,4 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/base",
+  "image": "mcr.microsoft.com/devcontainers/base:alpine",
   "updateContentCommand": "curl -fsSL https://deno.land/install.sh | sh -s -- --yes"
 }
