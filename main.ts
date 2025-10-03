@@ -1,25 +1,21 @@
 #!/usr/bin/env -S deno serve --allow-net=ghcr.io:443
 import * as Scope from "./scope.ts";
 import * as WWWAuthenticate from "./www_authenticate.ts";
-import { getOriginalURL } from "./fetch_ext.ts";
+import { RequestGetOriginalURL, ResponseHTML } from "./fetch_ext.ts";
+
+const indexResponse = ResponseHTML(
+  `<!doctype html>
+<html lang="en">
+<p>OCI registry proxy to <code>ghcr.io/jcbhmr/&lt;image&gt;</code></p>
+<p><a href="https://github.com/jcbhmr/docker.jcbhmr.com">Source code</a></p>
+`,
+);
 
 export default {
   async fetch(request) {
     const urlObject = new URL(request.url);
     if (urlObject.pathname === "/") {
-      return new Response(
-        `\
-<!doctype html>
-<html lang="en">
-<p>Vanity OCI registry proxy to <code>ghcr.io/jcbhmr/&lt;image&gt;</code></p>
-<p><a href="https://github.com/jcbhmr/cr.jcbhmr.com">Source code</a></p>
-`,
-        {
-          headers: {
-            "Content-Type": "text/html; charset=utf-8",
-          },
-        },
-      );
+      return indexResponse.clone();
     } else if (urlObject.pathname === "/token") {
       const newSearchParams = new URLSearchParams(urlObject.searchParams);
       let scope = newSearchParams.get("scope");
@@ -41,17 +37,15 @@ export default {
         restPathname === ""
           ? "https://ghcr.io/v2/"
           : `https://ghcr.io/v2/jcbhmr/${restPathname}${urlObject.search}`,
-        Object.create(request, {
-          redirect: {
-            configurable: true,
-            enumerable: true,
-            writable: true,
-            value: "manual",
-          },
-        }) as typeof request,
+        Object.create(
+          request,
+          Object.getOwnPropertyDescriptors({
+            redirect: "manual",
+          }),
+        ) as typeof request,
       );
       const mutHeaders = new Headers(response.headers);
-      const originalURLObject = new URL(getOriginalURL(request));
+      const originalURLObject = new URL(RequestGetOriginalURL(request));
       let location = mutHeaders.get("Location");
       if (location != null) {
         location = location.replace(

@@ -1,6 +1,6 @@
 import * as Forwarded from "./forwarded.ts";
 
-export function getOriginalURL(self: Request): string {
+export function RequestGetOriginalURL(self: Request): string {
   const urlObject = new URL(self.url);
   const forwarded = self.headers.get("Forwarded");
   if (forwarded != null) {
@@ -25,4 +25,12 @@ export function getOriginalURL(self: Request): string {
     }
   }
   return urlObject.toString();
+}
+
+export function ResponseHTML(html: string): Response {
+  return new Response(html, {
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+    },
+  });
 }
